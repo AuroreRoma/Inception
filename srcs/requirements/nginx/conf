@@ -1,0 +1,16 @@
+events {}
+
+http
+{
+	server {
+		listen 443 ssl http2;
+		listen [::]:443 ssl http2;
+
+		root /var/www/localhost/public;
+
+		ssl_certificate /root/cert/certificate.crt;
+		ssl_certificate_key /root/cert/private.key;
+
+		ssl_protocols TLSv1.2 TLSv1.3;
+	}
+}
