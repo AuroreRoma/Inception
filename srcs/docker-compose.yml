@@ -3,18 +3,19 @@ version: "3.9"
 volumes:
   db_volume:
     driver: local
-    name:
-      db_volume
-    driver_opts:
-      type: volume
-      device: /home/aroma/data/db_vol
-  wp_volume:
-    driver: local
-    name: wp_volume
     driver_opts:
       type: none
       o: bind
-      device: /home/aroma/data/wp_vol
+      device: /home/aroma/data/mariadb
+  wp_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/aroma/data/wordpress
+
+networks:
+  inception_network:
 
 services:
   nginx:
@@ -22,23 +23,34 @@ services:
     depends_on:
       - wordpress
     ports:
-      - "443:443"
+      - 443:443
     volumes:
-      - wp_volume:/var/www/html
+      - wp_volume:/var/www/
+    networks:
+      - inception_network
 
   wordpress:
     build: requirements/wordpress
-      #image: wordpress:latest
     depends_on:
       - mariadb
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb:3306
+      - WORDPRESS_DB_USER=$MYSQL_USER
+      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+    networks:
+      - inception_network
+    volumes:
+      - wp_volume:/var/www/
 
   mariadb:
-    image: mariadb:latest
+    build: requirements/mariadb
+    #image: mariadb
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: 'hello42'
-      MYSQL_USER: 'temporary'
-      MYSQL_PASSWORD: 'temporary'
-      MYSQL_DATABASE: 'wordpress'
-    #temporary
-    ports:
-      - "3306:3306"
+      - MYSQL_DATABASE=wordpress
+    networks:
+      - inception_network
+    volumes:
+      - db_volume:/var/lib/mysql
