@@ -14,7 +14,7 @@ mysql_install_db --user=mysql --ldata=/var/lib/mysql
 
 echo "CREATE DATABASE $DB_NAME DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;" | mysql -u root --skip-password
 
-echo "GRANT ALL ON wordpress.* TO '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';" | mysql -u root --skip-password
+echo "GRANT ALL ON wordpress.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';" | mysql -u root --skip-password
 
 echo "FLUSH PRIVILEGES;" | mysql -u root --skip-password
 
