@@ -28,6 +28,7 @@ services:
       - wp_volume:/var/www/
     networks:
       - inception_network
+    restart: always
 
   wordpress:
     build: requirements/wordpress
@@ -43,10 +44,10 @@ services:
       - inception_network
     volumes:
       - wp_volume:/var/www/
+    restart: always
 
   mariadb:
     build: requirements/mariadb
-    #image: mariadb
     environment:
       - DB_NAME=${MYSQL_DB_NAME}
       - DB_USER=${MYSQL_USER}
@@ -56,3 +57,4 @@ services:
       - inception_network
     volumes:
       - db_volume:/var/lib/mysql
+    restart: always
