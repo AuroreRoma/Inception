@@ -35,10 +35,10 @@ services:
       - mariadb
     env_file: .env
     environment:
-      - WORDPRESS_DB_HOST=mariadb:3306
-      - WORDPRESS_DB_USER=$MYSQL_USER
-      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
-      - WORDPRESS_DB_NAME=wordpress
+      - DB_HOST=${MYSQL_HOST}
+      - DB_NAME=${MYSQL_DB_NAME}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
     networks:
       - inception_network
     volumes:
@@ -47,9 +47,11 @@ services:
   mariadb:
     build: requirements/mariadb
     #image: mariadb
-    env_file: .env
     environment:
-      - MYSQL_DATABASE=wordpress
+      - DB_NAME=${MYSQL_DB_NAME}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - inception_network
     volumes:
