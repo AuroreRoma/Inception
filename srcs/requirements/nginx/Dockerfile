@@ -9,7 +9,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 		   -out /root/cert/certificate.crt \
 		   -subj "/C=FR"
 
-COPY default.conf /etc/nginx/http.d/default.conf
+COPY conf/default.conf /etc/nginx/http.d/default.conf
 
 EXPOSE 443
 
