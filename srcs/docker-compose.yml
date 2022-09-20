@@ -19,6 +19,7 @@ networks:
 
 services:
   nginx:
+    container_name: nginx
     build: requirements/nginx
     depends_on:
       - wordpress
@@ -31,6 +32,7 @@ services:
     restart: always
 
   wordpress:
+    container_name: wordpress
     build: requirements/wordpress
     depends_on:
       - mariadb
@@ -47,6 +49,7 @@ services:
     restart: always
 
   mariadb:
+    container_name: mariadb
     build: requirements/mariadb
     environment:
       - DB_NAME=${MYSQL_DB_NAME}
